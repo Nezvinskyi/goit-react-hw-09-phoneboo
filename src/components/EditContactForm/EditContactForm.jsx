@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { contactsOperations } from '../../redux/contacts';
 
-const EditContactForm = ({ user, onEditContact, onClose }) => {
+export default function EditContactForm({ user, onClose }) {
+  const dispatch = useDispatch();
   const { id, name, number } = user;
 
   const [newName, setNewName] = useState(name);
@@ -10,7 +11,7 @@ const EditContactForm = ({ user, onEditContact, onClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onEditContact(id, { name: newName, number: newNumber });
+    dispatch(contactsOperations.editContact(id, { name: newName, number: newNumber }));
     onClose();
   };
 
@@ -51,10 +52,4 @@ const EditContactForm = ({ user, onEditContact, onClose }) => {
       </div>
     </form>
   );
-};
-
-const mapDispatchToProps = {
-  onEditContact: contactsOperations.editContact,
-};
-
-export default connect(null, mapDispatchToProps)(EditContactForm);
+}

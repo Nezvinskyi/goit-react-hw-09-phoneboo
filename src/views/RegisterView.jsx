@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authOperations } from '../redux/auth';
 
-const RegisterView = ({ onRegister }) => {
+export default function RegisterView() {
+  const dispatch = useDispatch();
   const [{ name, email, password }, setCredentials] = useState({
     name: '',
     email: '',
@@ -15,7 +16,7 @@ const RegisterView = ({ onRegister }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onRegister({ name, email, password });
+    dispatch(authOperations.register({ name, email, password }));
     setCredentials({ name: '', email: '', password: '' });
   };
 
@@ -67,10 +68,4 @@ const RegisterView = ({ onRegister }) => {
       </form>
     </>
   );
-};
-
-const mapDispatchToProps = {
-  onRegister: authOperations.register,
-};
-
-export default connect(null, mapDispatchToProps)(RegisterView);
+}

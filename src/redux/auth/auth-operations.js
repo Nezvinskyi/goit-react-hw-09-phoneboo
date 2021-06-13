@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import * as api from '../../service/contacts-api'
 import '../../service/api-settings';
 import * as actions from './auth-actions';
 

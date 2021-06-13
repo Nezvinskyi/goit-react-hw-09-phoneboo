@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { authSelectors } from '../../redux/auth';
@@ -7,7 +7,9 @@ import UserMenu from '../UserMenu';
 import Filter from '../Filter';
 import icon from './phonebook-icon.svg';
 
-const AppBar = ({ isAuthenticated }) => {
+export default function AppBar() {
+  const isAuthenticated = useSelector(authSelectors.getIsAuthenticated);
+
   const mobileMenu = useRef();
   const handleMenu = () => {
     mobileMenu.current.classList.toggle('collapse');
@@ -42,9 +44,4 @@ const AppBar = ({ isAuthenticated }) => {
       </nav>
     </header>
   );
-};
-
-const mapStateToProps = state => ({
-  isAuthenticated: authSelectors.getIsAuthenticated(state),
-});
-export default connect(mapStateToProps)(AppBar);
+}

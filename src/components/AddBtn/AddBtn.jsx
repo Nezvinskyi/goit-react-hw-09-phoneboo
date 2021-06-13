@@ -12,19 +12,17 @@ const useStyles = makeStyles(() => ({
 const AddBtn = ({ onClick }) => {
   const classes = useStyles();
   return (
-    <>
-      <Fab
-        color="primary"
-        aria-label="add"
-        className={classes.fab}
-        type="button"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        onClick={onClick}
-      >
-        <AddIcon />
-      </Fab>
-    </>
+    <Fab
+      color="primary"
+      aria-label="add"
+      className={classes.fab}
+      type="button"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      onClick={onClick}
+    >
+      <AddIcon />
+    </Fab>
   );
 };
 

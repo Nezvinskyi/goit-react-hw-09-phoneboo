@@ -1,5 +1,5 @@
-import React, { Component, Suspense, lazy } from 'react';
-import { connect } from 'react-redux';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import MyLoader from './components/Loader/Loader';
 import { getIsLoading } from './redux/loader/loader-selector';
@@ -13,40 +13,31 @@ const ContactsView = lazy(() => import('./views/ContactsView'));
 const RegisterView = lazy(() => import('./views/RegisterView'));
 const LoginView = lazy(() => import('./views/LoginView'));
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onGetCurrentUser();
-  }
+export default function App() {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(getIsLoading);
 
-  render() {
-    return (
-      <div className="container">
-        <AppBar />
-        <Suspense fallback={<MyLoader />}>
-          <Switch>
-            <Route exact path="/" component={HomeView} />
-            <PublicRoute
-              restricted
-              redirectTo="/contacts"
-              path="/register"
-              component={RegisterView}
-            />
-            <PublicRoute restricted redirectTo="/contacts" path="/login" component={LoginView} />
-            <PrivatRoute path="/contacts" component={ContactsView} redirectTo="/login" />
-          </Switch>
-        </Suspense>
-        {this.props.isLoading && <MyLoader />}
-      </div>
-    );
-  }
+  useEffect(() => {
+    dispatch(authOperations.getCurrentUser());
+  }, [dispatch]);
+
+  return (
+    <div className="container">
+      <AppBar />
+      <Suspense fallback={<MyLoader />}>
+        <Switch>
+          <Route exact path="/" component={HomeView} />
+          <PublicRoute
+            restricted
+            redirectTo="/contacts"
+            path="/register"
+            component={RegisterView}
+          />
+          <PublicRoute restricted redirectTo="/contacts" path="/login" component={LoginView} />
+          <PrivatRoute path="/contacts" component={ContactsView} redirectTo="/login" />
+        </Switch>
+      </Suspense>
+      {isLoading && <MyLoader />}
+    </div>
+  );
 }
-
-const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
-});
-
-const mapDispatchToProps = {
-  onGetCurrentUser: authOperations.getCurrentUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authOperations } from '../redux/auth';
 
-const LoginView = ({ onLogin }) => {
+export default function LoginView() {
+  const dispatch = useDispatch();
   const [{ email, password }, setCredentials] = useState({
     email: '',
     password: '',
@@ -14,7 +15,7 @@ const LoginView = ({ onLogin }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onLogin({ email, password });
+    dispatch(authOperations.login({ email, password }));
     setCredentials({ email: '', password: '' });
   };
 
@@ -52,10 +53,4 @@ const LoginView = ({ onLogin }) => {
       </form>
     </>
   );
-};
-
-const mapDispatchToProps = {
-  onLogin: authOperations.login,
-};
-
-export default connect(null, mapDispatchToProps)(LoginView);
+}
