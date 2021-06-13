@@ -1,6 +1,6 @@
 # Phonebook app
 
-## features: 
+## Features: 
 * user authorization/authentication
 * contacts add/delete/edit 
 * filter/search
